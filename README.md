@@ -41,6 +41,14 @@ flowchart LR
 2. **Objects:** label detection finds people, handbags, clothing, and other objects in crowded, fast-moving scenes.
 3. **Visualization:** the script draws bounding boxes and labels on the original image so the results are readable at a glance, not buried in JSON.
 
+## Files
+
+| File | Description |
+|---|---|
+| `detect_faces_emotions.py` | Detects faces with Rekognition, picks each face's highest-confidence expression, and draws labeled bounding boxes |
+
+**Run it:** `pip install boto3 pillow matplotlib`, configure AWS credentials, set `BUCKET` and `PHOTO`, then `python detect_faces_emotions.py`.
+
 ## Where this applies
 
 - **Retail:** what shoppers carry and how they move through a space
