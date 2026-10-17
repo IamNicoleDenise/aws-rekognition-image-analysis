@@ -1,4 +1,4 @@
-# AI Image Analysis: Emotion & Object Detection with Amazon Rekognition
+# AI Image Analysis: Face & Emotion Detection with Amazon Rekognition
 
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![Boto3](https://img.shields.io/badge/Boto3_(AWS_SDK)-232F3E?style=flat-square)
@@ -6,7 +6,7 @@
 ![Pillow](https://img.shields.io/badge/Pillow-3776AB?style=flat-square)
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557C?style=flat-square)
 
-A computer vision pipeline that takes a busy street scene and returns what's in it: every face with its predicted expression, every object with a label, and confidence scores drawn right onto the image.
+A computer vision script that finds every face in an image, reads its predicted expression, and draws labeled bounding boxes with confidence scores right onto the image.
 
 📄 **Full case study:** [AI Image Analysis: Emotion & Object Detection](https://iamnicolecoleman.com/portfolio/case-study-ai-powered-image-analysis-for-emotion-and-object-detection/)
 
@@ -18,11 +18,11 @@ A computer vision pipeline that takes a busy street scene and returns what's in 
 
 | Skill | Where it shows up |
 |---|---|
-| Cloud AI services | Amazon Rekognition face analysis and label detection APIs |
-| API integration | Python and Boto3 to send images and parse the JSON responses |
+| Cloud AI services | Amazon Rekognition face analysis API (`DetectFaces`) |
+| API integration | Python and Boto3 to call Rekognition, read the image from S3, and parse the JSON response |
 | Computer vision output handling | Converting Rekognition's relative bounding boxes into pixel coordinates |
 | Visualization | Drawing boxes, labels, and confidence scores with Pillow and Matplotlib |
-| Solution framing | Mapping the output to use cases like retail analytics, event engagement, and crowd management |
+| Solution framing | Mapping the output to use cases like event engagement and customer experience research |
 
 ## How it works
 
@@ -30,16 +30,13 @@ A computer vision pipeline that takes a busy street scene and returns what's in 
 flowchart LR
     A[Street scene image] --> B[Python + Boto3]
     B --> C[Rekognition<br/>DetectFaces]
-    B --> D[Rekognition<br/>DetectLabels]
-    C --> E[Expression labels<br/>+ confidence]
-    D --> F[Objects<br/>+ confidence]
+    C --> E[Faces + dominant expression<br/>+ confidence]
     E --> G[Pillow / Matplotlib<br/>annotated image]
-    F --> G
 ```
 
-1. **Faces:** Rekognition's facial analysis returns each face's location and predicted expressions (such as happy, surprised, or angry) with a confidence score.
-2. **Objects:** label detection finds people, handbags, clothing, and other objects in crowded, fast-moving scenes.
-3. **Visualization:** the script draws bounding boxes and labels on the original image so the results are readable at a glance, not buried in JSON.
+1. **Detect:** Rekognition's facial analysis returns each face's location and its predicted expressions (such as happy, surprised, or angry), each with a confidence score.
+2. **Pick:** the script keeps the highest-confidence expression for each face.
+3. **Visualize:** it converts Rekognition's relative bounding boxes to pixels and draws the box and label on the original image, so results are readable at a glance instead of buried in JSON.
 
 ## Files
 
@@ -51,9 +48,9 @@ flowchart LR
 
 ## Where this applies
 
-- **Retail:** what shoppers carry and how they move through a space
-- **Events:** engagement and crowd density
-- **Operations:** turning large batches of images into structured, searchable data
+- **Events:** gauging audience reactions across photos
+- **Customer experience research:** reviewing reactions in product or usability testing
+- **Operations:** turning batches of images into structured, searchable data
 
 > Note: expression labels describe how a face looks, not how a person actually feels. They're a signal to review, not a conclusion.
 
